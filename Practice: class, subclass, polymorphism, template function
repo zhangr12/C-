@@ -61,7 +61,7 @@ private:
 
 class Square: public Rectangular{
 public:
-    Square(double n) :Rectangular(length, length)
+    Square(double n) :Rectangular(n, n)
     {
         length = n;
     }
@@ -74,8 +74,6 @@ public:
 private:
     double length;
 };
-
-
 
 
 template<class T, class K>
@@ -109,9 +107,4 @@ int main()
     
     return 0;
 }
-
-
-
-
-
 
