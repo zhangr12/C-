@@ -1,0 +1,25 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+bool match(string &v){
+	return v.size() == 3;
+}
+
+int countMatch(vector<string> &v, bool(*match)(string &test)){
+	int res = 0;
+	for(auto t:v){
+		if(match(t)) res++;
+	}
+	return res;
+}
+
+int main(){
+	
+	vector<string> v{"one", "two", "three"};
+	
+	cout << countMatch(v, match) << endl;
+	
+	return 0;
+}
