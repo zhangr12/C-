@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Test{
+public:
+	virtual bool operator()(string &t) = 0;
+	virtual bool operator()(int n) = 0;
+};
+
+
+class Match:public Test{
+public:
+	virtual bool operator()(string &t){
+		return t.size() == 3;
+	}
+	virtual bool operator()(int n){
+	    return n == 10;
+	}
+};
+/*
+class Match2:public Test{
+public:
+	virtual bool operator()(int n){
+		return n == 10;
+	}
+};
+*/
+
+int main(){
+	
+	vector<string> v{"one", "two", "three"};
+	
+	Match m;
+	
+	cout << m(v[0]) << endl;
+	
+	cout << m(10) << endl;
+	
+	//cout << (*m2)(9) << endl;
+	
+	return 0;
+}
