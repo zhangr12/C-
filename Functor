@@ -1,44 +1,57 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 class Test{
 public:
-	virtual bool operator()(string &t) = 0;
-	virtual bool operator()(int n) = 0;
+    virtual bool operator()(string &test) = 0;
+    virtual bool operator()(int n) = 0;
+    
+    virtual ~Test(){}
 };
 
 
-class Match:public Test{
+class Match: public Test{
 public:
-	virtual bool operator()(string &t){
-		return t.size() == 3;
-	}
-	virtual bool operator()(int n){
-	    return n == 10;
-	}
+    virtual bool operator()(string &test){
+        return test == "one";
+    }
+    
+    virtual bool operator()(int n){
+        return n == 10;
+    }
 };
-/*
-class Match2:public Test{
-public:
-	virtual bool operator()(int n){
-		return n == 10;
-	}
-};
-*/
+
+
+template<class T>
+void check(T t, Test &test){
+    if(test(t)){
+        cout << "True!" << endl;
+    }
+    else{
+        cout << "False!" << endl;
+    }
+}
+
 
 int main(){
-	
-	vector<string> v{"one", "two", "three"};
-	
-	Match m;
-	
-	cout << m(v[0]) << endl;
-	
-	cout << m(10) << endl;
-	
-	//cout << (*m2)(9) << endl;
-	
-	return 0;
+    vector<string> v{"one", "two", "three"};
+    
+    Match m;
+    
+    check(v[1], m);
+    
+    check(10, m);
+    
+    return 0;
 }
+
+
