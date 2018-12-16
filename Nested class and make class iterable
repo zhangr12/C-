@@ -1,0 +1,112 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+template<class T>
+class ring{
+public:
+    class iterator;
+
+public:
+    ring(int n){
+        maxCap = n;
+        crtCap = 0;
+        v = new T[n];
+    }
+    
+    ~ring(){
+        delete [] v;
+    }
+    
+    void add(T t){
+        v[crtCap%maxCap] = t;
+        crtCap++;
+    }
+
+    T &get(int idx){
+        return v[idx];
+    }
+    
+    int size(){
+        return min(crtCap, maxCap);
+    }
+    
+    iterator begin(){
+        return iterator(0, *this);
+    }
+    
+    iterator end(){
+        return iterator(maxCap, *this);
+    }
+    
+    
+private:
+    T *v;
+    int crtCap;
+    int maxCap;
+};
+
+
+template<class T>
+class ring<T>::iterator{
+private:
+    int m_pos;
+    ring &m_ring;
+public:
+    iterator(int n, ring &aRing): m_pos(n), m_ring(aRing){
+        
+    }
+    
+    iterator &operator++(int){
+        m_pos++;
+        return *this;
+    }
+    
+    iterator &operator++(){
+        m_pos++;
+        return *this;
+    }
+    
+    T &operator*(){
+        return m_ring.get(m_pos);
+    }
+    
+    bool operator!=(const iterator &other) const{
+        return other.m_pos != m_pos;
+    }
+    
+};
+
+
+int main(){
+    
+    ring<string> textring(3);
+    
+    textring.add("one");
+    textring.add("two");
+    textring.add("three");
+    textring.add("four");
+    textring.add("five");
+    
+    /*
+    for(int i = 0; i < textring.size(); i++){
+        cout << textring.get(i) << endl;
+    }
+    
+    cout << endl;
+    */
+    
+    for(ring<string>::iterator it = textring.begin(); it != textring.end(); it++){
+        cout << *it << endl;
+    }
+    
+    cout << endl;
+    
+    for(auto r:textring){
+        cout << r << endl;
+    }
+    
+    return 0;
+}
+
