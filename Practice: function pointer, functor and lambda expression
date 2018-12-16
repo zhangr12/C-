@@ -1,0 +1,105 @@
+// function pointer, functor, lambda expression practice
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+// function pointer
+bool Match(string &s){
+    return s.size() == 3;
+}
+
+int countMatch(vector<string> &s, bool (*Match)(string&)){
+    int res = 0;
+    for(auto text:s){
+        if(Match(text)) res++;
+    }
+    return res;
+}
+
+// functor
+class BaseMatch{
+public:
+    virtual bool operator()(string&) = 0;
+    virtual bool operator()(int) = 0;
+};
+
+class Match2: public BaseMatch{
+public:
+    Match2(string text, int m){
+        s = text;
+        n = m;
+    }
+    virtual bool operator()(string &input){
+        return input == s;
+    }
+    
+    virtual bool operator()(int input){
+        return input == n;
+    }
+    
+private:
+    string s;
+    int n;
+};
+
+template<class T>
+int countMatch2(vector<T> &v, BaseMatch &m){
+    int res = 0;
+    for(auto text:v){
+        if(m(text)) res++;
+    }
+    return res;
+}
+
+// lambda expression
+int countMatch3(vector<int> &v, bool (*match3)(int)){
+    int res = 0;
+    for(auto n:v){
+        if(match3(n)) res++;
+    }
+    return res;
+}
+
+
+int main(){
+    
+    vector<string> v{"one", "two", "three", "one"};
+    
+    cout << countMatch(v, Match) << endl;
+    
+    Match2 m("one", 2);
+    
+    cout << countMatch2(v, m) << endl;
+    
+    vector<int> v2{1,2,3,4,2,2};
+    
+    cout << countMatch2(v2, m) << endl;
+    
+    v2.push_back(2);
+    
+    // lambda expression
+    auto match3 = [](int n) -> bool {
+        return n == 2;
+    };
+    
+    cout << countMatch3(v2, match3) << endl;
+    
+    v2.push_back(2);
+    
+    double target = 2;
+    
+    transform(v2.begin(), v2.end(), v2.begin(), [target](double a) -> double{
+        if(a != target){
+            return 0;
+        }
+        else{
+            return a;
+        }
+    });
+    
+    cout << res << endl;
+    
+    return 0;
+}
+
