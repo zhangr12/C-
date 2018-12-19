@@ -8,17 +8,29 @@ template<class T>
 class Match{
 public:
     Match() = default;
-    bool operator()(T test){
-        return test.size() == 3;
+    // we can initialize the t in constructor
+    Match(T tt){
+        t = tt;
     }
+    // we can also change the value of t using the function marker
+    void marker(T tt){
+        t = tt;
+    }
+    
+    bool operator()(T test){
+        return test== t;
+    }
+private:
+    T t;
 };
 
 int main()
 {
     vector<string> v{"one", "two", "three"};
+    // need to specify the type of Match when we construct the object
+    Match<string> m("one");
     
-    // need to clarify template type when create object m
-    Match<string> m;
+    m.marker("five");
     
     int count3 = count_if(v.begin(), v.end(), m);
     
