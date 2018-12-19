@@ -17,6 +17,7 @@ int main()
 {
     vector<string> v{"one", "two", "three"};
     
+    // need to clarify template type when create object m
     Match<string> m;
     
     int count3 = count_if(v.begin(), v.end(), m);
