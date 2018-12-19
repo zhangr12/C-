@@ -1,0 +1,27 @@
+#include <iostream>
+#include <vector>
+#include <functional>
+#include <algorithm>
+using namespace std;
+
+template<class T>
+class Match{
+public:
+    Match() = default;
+    bool operator()(T test){
+        return test.size() == 3;
+    }
+};
+
+int main()
+{
+    vector<string> v{"one", "two", "three"};
+    
+    Match<string> m;
+    
+    int count3 = count_if(v.begin(), v.end(), m);
+    
+    cout << "count3: " << count3 << endl;
+    
+    return 0;
+}
