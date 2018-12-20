@@ -1,0 +1,74 @@
+#include <iostream>
+#include <memory.h>
+
+using namespace std;
+
+class Test{
+private:
+    int _maxCap{10}, *_v;
+public:
+    Test(){
+        _v = new int[_maxCap]{};
+        cout << "Default constructor" << endl;
+    }
+    
+    Test(int n){
+        _maxCap = n;
+        _v = new int[_maxCap]{0};
+        cout << "Paramatrize constructor" << endl;
+    }
+    
+    Test(Test &other){
+        _maxCap = other._maxCap;
+        _v = new int[_maxCap]{};
+        memcpy(_v, other._v, _maxCap*sizeof(int));
+        cout << "Copy constructor" << endl;
+    }
+    
+    Test &operator=(Test &other){
+        _maxCap = other._maxCap;
+        _v = new int[_maxCap]{};
+        memcpy(_v, other._v, _maxCap*sizeof(int));
+        cout << "Assignment" << endl;
+    }
+    
+    int changeVal(int pos, int val){
+        if(pos >= _maxCap) return -1;
+        _v[pos] = val;
+        return _v[pos];
+    }
+    
+    int getVal(int pos){
+        if(pos >= _maxCap) return -1;
+        return _v[pos];
+    }
+    
+    int size(){
+        return _maxCap;
+    }
+    
+    ~Test(){
+        delete [] _v;
+        cout << "Destructor" << endl;
+    }
+};
+
+
+int main()
+{
+    cout<<"Hello World" << endl;
+    
+    Test t1;
+    cout << "Size of t1 is: " << t1.size() << endl;
+    
+    Test t2(15);
+    cout << "Size of t2 is: " << t2.size() << endl;
+    
+    Test t3 = t2;
+    cout << "Size of t3 is: " << t3.size() << endl;
+    
+    cout << t2.changeVal(13, 99) << endl;
+    cout << t3.getVal(13) << endl;
+    
+    return 0;
+}
