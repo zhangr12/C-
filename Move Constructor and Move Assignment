@@ -1,0 +1,93 @@
+#include <iostream>
+#include <memory.h>
+#include <vector>
+
+using namespace std;
+
+class Test{
+private:
+    int *_pBuffer{nullptr}, _maxCap{3};
+public:
+    Test(){
+        cout << "Default constructor" << endl;
+        _pBuffer = new int[_maxCap]{};
+    }
+    
+    Test(int n){
+        cout << "Paramatrize constructor" << endl;
+        _maxCap = n;
+        _pBuffer = new int[_maxCap]{};
+    }
+    
+    Test(Test &other){
+        cout << "Copy constructor" << endl;
+        _maxCap = other._maxCap;
+        _pBuffer = new int[_maxCap]{};
+        memcpy(_pBuffer, other._pBuffer, _maxCap*sizeof(int));
+    }
+    
+    Test(Test &&other){
+        cout << "Move constructor" << endl;
+        _maxCap = other._maxCap;
+        _pBuffer = other._pBuffer;
+        other._pBuffer = nullptr;
+    }
+    
+    Test &operator=(Test &other){
+        cout << "Assignment" << endl;
+        _maxCap = other._maxCap;
+        _pBuffer = new int[_maxCap]{};
+        memcpy(_pBuffer, other._pBuffer, _maxCap*sizeof(int));
+        return *this;
+    }
+    
+    Test &operator=(Test &&other){
+        cout << "Move assignment" << endl;
+        delete [] _pBuffer;
+        _maxCap = other._maxCap;
+        _pBuffer = other._pBuffer;
+        other._pBuffer = nullptr;
+        return *this;
+    }
+    
+    void changeVal(int pos, int val){
+        _pBuffer[pos] = val;
+    }
+    
+    int getVal(int pos){
+        return _pBuffer[pos];
+    }
+    
+    int size(){
+        return _maxCap;
+    }
+    
+    ~Test(){
+        cout << "Destructor" << endl;
+        delete [] _pBuffer;
+    }
+    
+};
+
+int main()
+{
+    cout<<"Hello World" << endl;
+    
+    Test t1;
+    Test t2(10);
+    t1 = t2;
+    t2.changeVal(5, 10);
+    cout << t2.getVal(5) << endl;
+    cout << t1.getVal(5) << endl;
+    
+    Test t3 = t2;
+    
+    vector<Test> v;
+    
+    for(int i = 0; i < 3;i++) v.push_back(Test(5));
+    cout << "Size of v[0] is: " << v[0].size() << endl;
+    v[0] = Test(10);
+    cout << "Size of v[0] is: " << v[0].size() << endl;
+    
+    return 0;
+}
