@@ -1,0 +1,77 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int add(int a, int b, int c){
+    cout << a << "," << b << "," << c << endl;
+    return a + b + c;
+}
+
+int Minus(int a, int b){
+    cout << a << "," << b << endl;
+    return a-b;
+}
+
+class abstractOperation{
+public:
+    //abstractOperation() = default;
+    virtual int execute(int anotherNum) = 0;
+    virtual ~abstractOperation() = default;
+};
+
+class addition:public abstractOperation{
+public:
+    addition(int a, int b, int c){
+        num1 = a;
+        num2 = b;
+        num3 = c;
+    }
+    virtual int execute(int anotherNum){
+        cout << "add!" << endl;
+        return add(num1, num2, num3) + anotherNum;
+    }
+private:
+    int num1, num2, num3;
+};
+
+class substract:public abstractOperation{
+public:
+    substract(int a, int b){
+        num1 = a;
+        num2 = b;
+    }
+    virtual int execute(int anotherNum){
+        cout << "Minus!" << endl;
+        return Minus(num1, num2) + anotherNum;
+    }
+private:
+    int num1, num2;
+};
+
+
+
+int main()
+{
+    vector<abstractOperation*> v;
+    
+    addition *op1 = new addition(10, 20, 30);
+    substract *op2 = new substract(60, 50);
+    
+    v.push_back(op1);
+    v.push_back(op2);
+    
+    cout << v[0]->execute(1000) << endl;
+    cout << v[1]->execute(2000) << endl;
+    
+    return 0;
+}
+
