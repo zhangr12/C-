@@ -1,0 +1,54 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+class Test{
+public:
+    Test(){
+        cout << "constructor" << endl;
+    }
+    
+    void greet(){
+        cout << "hello" << endl;
+    }
+    
+    ~Test(){
+        cout << "destructor" << endl;
+    }
+};
+
+class Test1{
+private:
+    unique_ptr<Test> pTest{new Test};
+public:
+    Test1(){
+        
+    }
+};
+
+
+int main(){
+    
+    unique_ptr<Test> pTest(new Test);
+    
+    pTest->greet();
+    
+    // unique_ptr<Test pTest4 = pTest; // Error! pTest owns the object and it cannot be shared with other pointer
+    
+    Test1 test1;
+    
+    shared_ptr<Test> pTest2(nullptr);
+    
+    {
+        // by using the curly braket, the pTest1's scope is with in this curly braket
+        shared_ptr<Test> pTest1 = make_shared<Test>();
+        // if we do not use another shared_ptr on pTest1, then the object pTest1 points to will be destroied on the next "}"
+        // however, because we pass pTest1 to pTest2 and pTest2 is also a shared_ptr
+        // so the scope of the object pTest1 points to has been extended, it will not be destroied until pTest2 is out of its scope
+        pTest2 = pTest1;
+    }
+    
+    cout << "finish" << endl;
+    return 0;
+}
