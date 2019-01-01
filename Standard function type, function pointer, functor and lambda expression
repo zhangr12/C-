@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <functional>
+
+using namespace std;
+
+bool check(string &test){
+    return test.size() == 3;
+}
+
+class Check{
+public:
+    bool operator()(string &test){
+        return test.size() == 1;
+    }
+} check1;
+
+// standard function type
+void run(function<bool(string&)> func){
+    string test = "three";
+    cout << func(test) << endl;
+}
+
+int main()
+{
+    int size = 5;
+    vector<string> v{"one", "two", "three", "hello", "world", "a"};
+    
+    // lambda expression
+    auto lambda = [size](string &test){ return test.size() == size;};
+    int res1 = count_if(v.begin(), v.end(), lambda);
+    cout << "lambda: " << res1 << endl;
+    
+    // function pointer
+    int res2 = count_if(v.begin(), v.end(), check);
+    cout << "function pointer: " << res2 << endl;
+    
+    // functor
+    int res3 = count_if(v.begin(), v.end(), check1);
+    cout << "functor: " << res3 << endl;
+    
+    // standard function type
+    run(lambda);
+    run(check);
+    run(check1);
+    
+    function<bool(string&)> check2 = [size](string &test){ return test.size() == size;};
+    int res4 = count_if(v.begin(), v.end(), check2);
+    cout << "standard function type: " << res4 << endl;
+    
+    int another = 100;
+    function<int(int, int)> add = [another](int a, int b){ return another+a+b; };
+    cout << add(3, 4) << endl;
+    
+    return 0;
+}
