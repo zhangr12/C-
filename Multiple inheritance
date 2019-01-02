@@ -1,0 +1,49 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+class Machine{
+public:
+    virtual void start(){
+        cout << "Start machine..." << endl;
+    }
+    virtual void reset(){
+        cout << "Reset machine..." << endl;
+    }
+    virtual ~Machine(){};
+};
+
+class MusicInst{
+public:
+    virtual void play(){
+        cout << "Play Instrument..." << endl;
+    }
+    virtual void reset(){
+        cout << "Reset Instrument..." << endl;
+    }
+    virtual ~MusicInst(){};
+};
+
+
+class Syth: public Machine, public MusicInst{
+public:
+    virtual ~Syth(){};
+};
+
+
+int main(){
+    unique_ptr<Syth> pSyth(new Syth);
+    
+    pSyth->play();
+    pSyth->start();
+    pSyth->Machine::reset();
+    
+    
+    return 0;
+}
+
+
+
+
+
