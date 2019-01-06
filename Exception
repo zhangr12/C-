@@ -1,0 +1,54 @@
+#include <iostream>
+#include <exception>
+
+using namespace std;
+
+class MyException: public exception{
+public:
+    virtual const char* what() throw(){
+        return "something is wrong!";
+    }
+};
+
+class Test{
+public:
+    void goesWrong(){
+        bool error1 = false;
+        bool error2 = false;
+        bool error3 = true;
+        
+        if(error1){
+            throw MyException();
+        }
+        
+        if(error2){
+            throw exception();
+        }
+        
+        if(error3){
+            throw bad_alloc();
+        }
+        
+    }
+};
+
+
+int main()
+{
+    Test test;
+    
+    try{
+        test.goesWrong();
+    }
+    catch(MyException &e){
+        cout << e.what() << endl;
+    }
+    catch(bad_alloc &e){
+        cout << e.what() << endl;
+    }
+    catch(exception &e){
+        cout << e.what() << endl;
+    }
+
+    return 0;
+}
