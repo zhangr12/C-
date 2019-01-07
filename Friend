@@ -1,0 +1,48 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Person{
+private:
+    string name;
+    int age;
+public:
+    Person(string a, int b){
+        name = a;
+        age = b;
+    }
+    
+    void print(){
+        cout << name << ", " << age << endl;
+    }
+    
+    friend bool comp(const Person &p1, const Person &p2);
+};
+
+
+bool comp(const Person &p1, const Person &p2){
+    return p1.name < p2.name;
+}
+
+int main()
+{
+    vector<Person> v;
+    v.push_back({"Mike", 32});
+    v.push_back({"John", 30});
+    v.push_back({"Adam", 60});
+    
+    sort(v.begin(), v.end(), comp);
+    
+    for(int i = 0; i < v.size(); i++) v[i].print();
+    
+    return 0;
+}
