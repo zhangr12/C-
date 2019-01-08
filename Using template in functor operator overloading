@@ -30,10 +30,12 @@ int main()
     // need to specify the type of Match when we construct the object
     Match<string> m("one");
     
+    int count1 = count_if(v.begin(), v.end(), m);
+    cout << "count1: " << count1 << endl;
+    
     m.marker("five");
     
     int count3 = count_if(v.begin(), v.end(), m);
-    
     cout << "count3: " << count3 << endl;
     
     return 0;
