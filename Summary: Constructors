@@ -1,0 +1,84 @@
+#include <iostream>
+#include <vector>
+#include <memory.h>
+
+using namespace std;
+
+class Test{
+public:
+    Test(){
+        m_v = new int[m_cap];
+        cout << "default" << endl;
+    }
+    
+    Test(int cap){
+        m_cap = cap;
+        m_v = new int[m_cap];
+        cout << "paramatrized" << endl;
+    }
+    
+    Test(const Test &other){
+        m_cap = other.m_cap;
+        m_v = new int[m_cap];
+        memcpy(m_v, other.m_v, sizeof(int)*m_cap);
+        cout << "copy" << endl;
+    }
+    
+    Test &operator=(const Test &other){
+        m_cap = other.m_cap;
+        m_v = new int[m_cap];
+        memcpy(m_v, other.m_v, sizeof(int)*m_cap);
+        cout << "assignment" << endl;
+    }
+    
+    Test(Test &&other){
+        m_cap = other.m_cap;
+        m_v = other.m_v;
+        other.m_v = nullptr;
+        cout << "move constructor" << endl;
+    }
+    
+    Test &operator=(Test &&other){
+        m_cap = other.m_cap;
+        m_v = other.m_v;
+        other.m_v = nullptr;
+        cout << "move assignment" << endl;
+    }
+    
+    ~Test(){
+        delete [] m_v;
+        cout << "destructor" << endl;
+    }
+    
+    
+private:
+    int m_cap{3}, *m_v{nullptr};
+};
+
+
+int main(){
+    
+    // default
+    Test t0;
+    cout << "..." << endl;
+    // paramatrized
+    Test t1(10);
+    cout << "..." << endl;
+    // copy constructor
+    Test t3(t1);
+    cout << "..." << endl;
+    // assignment constructor
+    Test t4;
+    t4 = t3;
+    cout << "..." << endl;
+    // move constructor
+    vector<Test> v1;
+    v1.push_back(Test(6));
+    cout << "..." << endl;
+    // assignment constructor
+    vector<Test> v(3);
+    v[0] = Test(5);
+    cout << "..." << endl;
+    
+    return 0;
+}
