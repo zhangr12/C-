@@ -1,0 +1,45 @@
+#include <iostream>
+
+using namespace std;
+
+class humanMade{
+public:
+    humanMade(int size, int weight){
+        cout << "humanMade constructor..." << endl;
+        cout << size << " " << weight << endl;
+    }
+};
+
+class Machine: virtual public humanMade{
+public:
+    Machine(int size, int weight): humanMade(size, weight){
+        cout << "Machine constructor..." << endl;
+        cout << size << " " << weight << endl;
+    }
+};
+
+class Vehicle: virtual public humanMade{
+public:
+    Vehicle(int size): humanMade(size, size*10){
+        cout << "Vehicle constructor..." << endl;
+        cout << size << " " << size*10 << endl;
+    }
+};
+
+class bus: public Machine, public Vehicle{
+public:
+    bus(int size): Machine(size, size*10), Vehicle(size), humanMade(size, size*10){
+        cout << "Bus constructor..." << endl;
+        cout << size << " " << size*10 << endl;
+    }
+};
+
+
+int main(){
+    
+    bus b(5);
+    
+    
+    return 0;
+}
+
