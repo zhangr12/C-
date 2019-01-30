@@ -1,0 +1,19 @@
+#include <iostream>
+
+using namespace std;
+
+class Test{
+public:
+    Test() = default;
+    Test(Test &other) = delete;
+    Test &operator=(Test &other) = delete;
+};
+
+int main(){
+    Test t1;
+    Test t2(t1); // Error! Test is not a copyable object
+    Test t3;
+    t3 = t1;     // Error! Test is not a copyable object
+    
+    return 0;
+}
